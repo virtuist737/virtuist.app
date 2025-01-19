@@ -107,8 +107,8 @@
     <div class="content-container" id="studyContainer">
         <div class="study-text">
             <div class="study-section">
-                <h3>Description</h3>
-                <div id="studyDescription"></div>
+                <h3>Definition</h3>
+                <div id="studyDefinition"></div>
             </div>
             <div class="study-section">
                 <h3>Example Story</h3>
@@ -251,7 +251,7 @@
         }
 
         function showStudyContent() {
-            document.getElementById('studyDescription').textContent = virtueDefinitions[currentVirtue];
+            document.getElementById('studyDefinition').textContent = virtueDefinitions[currentVirtue];
             showStory();
         }
 
