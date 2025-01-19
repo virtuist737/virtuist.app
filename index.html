@@ -4,322 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtuist</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        :root {
-            --primary-color: #009BFF;
-            --dark-bg: #1a1a1a;
-            --card-bg: #2d2d2d;
-            --text-color: #ffffff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: var(--dark-bg);
-            color: var(--text-color);
-            min-height: 100vh;
-        }
-
-        .header {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            padding: 12px;
-            background-color: var(--primary-color);
-        }
-
-        .app-title {
-            font-size: 2.5em;
-            font-weight: 800;
-            color: var(--text-color);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .mode-selector {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding: 8px;
-            background-color: var(--card-bg);
-            border-radius: 16px;
-        }
-
-        .mode-button {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            background-color: transparent;
-            color: var(--text-color);
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .mode-button.active {
-            background-color: var(--primary-color);
-        }
-
-        .mode-button svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .selected-virtue-container {
-            display: none;
-            margin: 20px 0;
-            position: relative;
-        }
-
-        .back-arrow {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
-            padding: 6px;
-            cursor: pointer;
-            color: white;
-            background: none;
-            border: none;
-        }
-
-        .selected-virtue {
-            margin: 0;
-            padding: 20px;
-            border-radius: 12px;
-            background-color: var(--primary-color);
-            font-size: 1.6em;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .virtue-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-            padding: 10px;
-        }
-
-        .virtue-button {
-            padding: 25px 20px;
-            border: none;
-            border-radius: 16px;
-            color: white;
-            cursor: pointer;
-            font-size: 1.2em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .virtue-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-            border-radius: 16px;
-        }
-
-        .virtue-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        }
-
-        .content-container {
-            display: none;
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .practice-text, .study-text {
-            font-size: 1.3em;
-            line-height: 1.6;
-            color: var(--text-color);
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #383838;
-            border-radius: 16px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .study-section {
-            margin-bottom: 20px;
-        }
-
-        .study-section h3 {
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .shuffle-button {
-            position: relative;
-            bottom: 20px;
-            width: 48px;
-            height: 48px;
-            border-radius: 24px;
-            background: white;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .shuffle-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .shuffle-button svg {
-            width: 24px;
-            height: 24px;
-            color: var(--primary-color);
-        }
-
-        .info-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .info-button:hover {
-            transform: scale(1.1);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal-content {
-            background-color: #1a1a1a;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-            position: relative;
-            animation: modal-show 0.3s;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-        }
-
-        @keyframes modal-show {
-            from {top:-300px; opacity:0}
-            to {top:0; opacity:1}
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 15px;
-            }
-            
-            .app-title {
-                font-size: 2em;
-            }
-
-            .virtue-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .button-container {
-                flex-direction: column;
-            }
-
-            .back-button, .refresh-button {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="header">
-        <div class="logo-container">
+        <div class="logo-container" style="cursor: pointer;" onclick="showVirtues()">
             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="50pt" height="50pt" viewBox="0 0 243.000000 252.000000" preserveAspectRatio="xMidYMid meet">
                 <g transform="translate(0.000000,252.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
                     <path d="M450 2165 c-81 -37 -141 -139 -124 -212 3 -15 103 -320 220 -678 145
@@ -388,7 +77,7 @@
             <p>Then I plan to try to enable Virtuists to connect with each other and build local communities on a common foundation of virtues.</p>
         </br>
             <h3>How can you help?</h3>
-	</br>
+        </br>
             <ol>
                 <li>Share Virtuist with your family and friends, inviting them to practice and study virtues with you.</li>
                 <li>Email me at [coming soon] to share your ideas for app features, practice exercises and virtue stories.</li>
@@ -401,21 +90,15 @@
 
     <div class="content-container" id="practiceContainer">
         <div class="practice-container">
+            <button class="nav-arrow left" onclick="previousPractice()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
             <div class="practice-text" id="practiceText"></div>
-            <button class="shuffle-button" onclick="refreshPractice()">
-                <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800px" height="800px" viewBox="0 0 31.569 31.569" xml:space="preserve">
-                    <g>
-	                    <path d="M9.635,12.041c3.595-1.193,6.812-0.585,6.812-0.585l0.011,0.937c0.016,1.514,0.43,1.652,0.43,1.652
-                            c0.979,0.765,1.867-0.053,1.867-0.053s6.262-4.61,6.426-4.731c0.164-0.122,1.133-0.723,1.136-2.299
-                            c0.001-1.578-1.33-2.33-1.33-2.33s-5.17-3.52-6.212-4.229c-1.044-0.71-1.629-0.267-1.629-0.267
-                            c-0.768,0.502-0.698,1.16-0.698,1.16v1.84c-5.81,1.193-9.875,4.722-9.875,4.722c-5.587,4.751-4.049,11.353-4.049,11.353
-                            s0.014,0.296,0.58,0.296c0.643,0,0.65-0.396,0.65-0.396C4.02,16.863,6.04,13.234,9.635,12.041z"/>
-                        <path d="M29.046,12.355c0,0-0.015-0.294-0.578-0.294c-0.646,0-0.65,0.396-0.65,0.396c-0.268,2.247-2.286,5.875-5.882,7.07
-                                c-3.597,1.192-6.812,0.584-6.812,0.584l-0.011-0.937c-0.015-1.518-0.428-1.652-0.428-1.652c-0.979-0.766-1.869,0.053-1.869,0.053
-                                s-6.261,4.611-6.425,4.732c-0.165,0.121-1.13,0.722-1.134,2.3c-0.004,1.575,1.327,2.329,1.327,2.329s5.168,3.519,6.211,4.229
-                                c1.043,0.711,1.63,0.269,1.63,0.269c0.767-0.504,0.698-1.157,0.698-1.157v-1.843c5.811-1.191,9.875-4.724,9.875-4.724
-                                C30.585,18.958,29.046,12.355,29.046,12.355z"/>
-	                </g>
+            <button class="nav-arrow right" onclick="nextPractice()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
                 </svg>
             </button>
         </div>
@@ -429,180 +112,68 @@
             </div>
             <div class="study-section">
                 <h3>Example Story</h3>
-                <div id="studyStory"></div>
+                <div class="practice-container">
+                    <button class="nav-arrow left" onclick="previousStory()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <div class="story-text" id="studyStory"></div>
+                    <button class="nav-arrow right" onclick="nextStory()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <style>
+        .story-text {
+            flex: 1;
+            font-size: 1em;
+            line-height: 1.6;
+            color: var(--text-color);
+            padding: 20px;
+            background-color: #383838;
+            border-radius: 16px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+
     <script>
-        const practices = {
-            mindfulness: [
-                "Notice one instance of when I'm trying to work, but instead I'm thinking about wanting to rest or play.",
-                "Notice one instance of when I am trying to relax, but instead I'm thinking about something I need to get done.",
-                "Notice one instance of when someone is talking to me, but I am thinking about something else.",
-                "Do this short exercise: Sit still. Close your eyes. Silently count 5 deep breaths as you pay attention to the sensations of air entering and leaving your lungs.",
-                "Set a timer for 3 minutes. Sit still. Close your eyes. Pay attention to the sounds you hear around you.",
-                "Notice when you start to get frustrated and stop to take three slow, deep breaths.",
-                "Notice when you feel bothered by someone and take a deep breath to come back to the situation with a fresh start.",
-                "Notice if you have to wait longer than you want and choose to look around you with fresh eyes.",
-                "Start your day with a few minutes of deep breathing, focusing on the sensation of air entering and leaving your body.",
-                "Take regular breaks throughout the day to check in with your body and notice any areas of tension or discomfort."
-            ],
-            empathy: [
-                "Practice active listening. Demonstrate a genuine interest in someone else, ask open-ended questions, and create an opportunity for them to feel heard and understood.",
-                "Notice when someone does something that bothers you and ask yourself: 'Why might they be doing that?'",
-                "Notice that someone around you is struggling, try to imagine what they are feeling, and think of a time when you've felt something similar.",
-                "Notice when someone else makes a mistake and ask yourself: 'Why might they have made that mistake?'",
-                "Write down the names of three people you know that are suffering or struggling.",
-                "Ask a friend or family member what their greatest struggle in life is right now.",
-                "Pause before sending that email/text/post and imagine the reader. Who are they? What's their day been like so far?",
-                "Think of the person you have the most negative feelings towards right now and ask yourself: 'If I felt empathy for them, how would my behavior change?'"
-            ],
-            curiosity: [
-                "Read one page of a non-fiction book.",
-                "Watch a TED Talk.",
-                "Listen to 5 minutes of an educational/inspirational podcast.",
-                "Ask a friend or family member to teach you something they know that you don't.",
-                "Write down three things that you want to learn about.",
-                "Notice when something isn't going well and ask yourself, 'Is there anything I can do to help this go just a little bit better?'",
-                "Notice when you have a negative thought and ask yourself, 'Is this thought helpful? If not, what might a more helpful thought sound like?'",
-                "Notice when you disagree with someone, and seek first to ask questions and understand them before sharing your perspective."
-            ],
-            gratitude: [
-                "Write down three things in your life that bring you joy.",
-                "Notice when someone does something kind for you, and tell them you noticed and appreciate it.",
-                "Say five things out loud that you possess and would be sad to lose.",
-                "Look around you right now with the question: Can you find ten things you're grateful for?",
-                "Say out loud the names of three people you are glad to have in your life right now.",
-                "Write down three things that go well today.",
-                "Express appreciation to someone who has made a positive impact on your life.",
-                "Take a moment to savor the small pleasures in your day, like a warm drink or a beautiful sunset."
-            ],
-            kindness: [
-                "Give something nice that you own to someone that needs it more than you do.",
-                "Send a short text to someone telling them you love them and truly wish them happiness and success.",
-                "Send a short text to someone describing three things you admire about them.",
-                "Give three people a compliment.",
-                "Do one small act of kindness for a stranger.",
-                "Notice when someone is struggling and offer to help.",
-                "Identify one thing that you know a friend or family member doesn't like having to do, and do it for them.",
-                "Offer support and encouragement to someone who is going through a difficult time."
-            ],
-            humility: [
-                "Notice when you make a mistake today, and admit it out loud.",
-                "Look for an instance of someone doing something better than you, and tell them so.",
-                "Write down three of your current weaknesses that you want to improve on.",
-                "Notice and admit if someone's right and you're wrong.",
-                "Notice when someone makes a mistake and ask yourself: 'Have I ever made that same mistake before?'",
-                "Write down one of your biggest flaws or weaknesses",
-                "Admit when you don't know something and seek out information or guidance from others.",
-                "Acknowledge that you have much to learn from those who have different backgrounds, experiences, and ways of thinking."
-            ],
-            integrity: [
-                "Honor your commitments and follow through on promises you've made.",
-                "Be honest and transparent in your communication, even when it's difficult.",
-                "Admit your mistakes and take responsibility for your actions.",
-                "Stand up for what you believe is right, even if it's unpopular or challenging.",
-                "Be consistent in your behavior and actions, aligning them with your values and principles.",
-                "Write down three of your most fundamental values and set an intention to live by them.",
-                "Strive to do the right thing, even when no one is watching.",
-                "Maintain confidentiality and respect the trust others place in you."
-            ],
-            discipline: [
-                "Create a daily schedule or to-do list and stick to it.",
-                "Do something hard or difficult.",
-                "Do something that you find uncomfortable or unpleasant.",
-                "Do one small thing to improve your sleep habits.",
-                "Do one small thing to improve your eating habits.",
-                "Do one small thing to improve your exercise habits.",
-                "Write down three things you've been procrastinating, and set the intention to spend 5 minutes doing one of them.",
-                "Set clear goals for yourself and take consistent steps towards achieving them, even when faced with obstacles."
-            ],
-            skepticism: [
-                "Write down one of your core beliefs, then ask yourself: 'Why do I believe this? Who might believe differently? What do they believe? Why might they believe that?'",
-                "Examine the evidence supporting a commonly held belief or idea.",
-                "Question the motivations behind a particular decision or course of action.",
-                "Seek out diverse sources of information on a given topic.",
-                "Critically analyze the arguments presented in a persuasive speech or advertisement.",
-                "Withhold judgment until sufficient evidence is presented.",
-                "Fact-check information before sharing it with others.",
-                "Question the reliability of memory and perception, recognizing that human cognition is prone to error and distortion."
-            ],
-            rationality: [
-                "Say this out loud: 'Today I'm going to notice when I'm about to make an emotional decision and ask myself: What would a logical decision look like?'",
-                "Notice when someone tries to persuade you via emotion instead of logic.",
-                "Question your assumptions before accepting them as true.",
-                "Seek out alternative explanations for events or situations you encounter.",
-                "Actively listen to opposing viewpoints without immediately dismissing them.",
-                "Take a moment to evaluate the credibility of sources before accepting information as factual.",
-                "Consider the long-term consequences of your decisions before acting.",
-                "Examine your own motivations and biases that may influence your decision-making process."
-            ]
-        };
-
-        const virtueColors = {
-            mindfulness: '#009BFF',
-            empathy: '#F24040',
-            curiosity: '#731DD8',
-            gratitude: '#ED4F1A',
-            kindness: '#DE2C70',
-            humility: '#7943A8',
-            integrity: '#82C41F',
-            discipline: '#EB7C1C',
-            skepticism: '#772D8B',
-            rationality: '#13BFB0'
-        };
-
-        const virtues = [
-            'mindfulness', 'empathy', 'curiosity', 'gratitude', 'kindness',
-            'humility', 'integrity', 'discipline', 'skepticism', 'rationality'
-        ];
-
-        const studyContent = {
-            mindfulness: {
-                description: "Mindfulness is the practice of maintaining a nonjudgmental state of heightened or complete awareness of one's thoughts, emotions, or experiences on a moment-to-moment basis.",
-                story: "Sarah was in a heated meeting when she noticed her heart racing and her muscles tensing. Instead of reacting immediately, she took three deep breaths and observed these sensations without judgment. This moment of mindfulness helped her respond thoughtfully rather than reactively."
-            },
-            empathy: {
-                description: "Empathy is the ability to understand and share the feelings of another, creating a bridge of understanding between people by genuinely connecting with their emotional experience.",
-                story: "When John's colleague made a mistake during a presentation, instead of criticism, he remembered his own similar experience and offered support. His empathetic response helped his colleague learn and grow from the experience."
-            },
-            curiosity: {
-                description: "Curiosity is the desire to learn, explore, and understand new things. It drives us to ask questions, seek knowledge, and remain open to new experiences and perspectives.",
-                story: "Maria noticed her coworker using an unfamiliar programming technique. Instead of dismissing it, she asked him to explain how it worked. This led to a valuable learning experience and sparked her interest in exploring new coding approaches."
-            },
-            gratitude: {
-                description: "Gratitude is the practice of recognizing and appreciating the positive aspects of life, from significant achievements to small daily pleasures, fostering contentment and joy.",
-                story: "After losing power during a storm, David began listing all the modern conveniences he usually took for granted. This simple act of gratitude transformed his frustration into appreciation, making the experience more bearable."
-            },
-            kindness: {
-                description: "Kindness is the quality of being friendly, generous, and considerate towards others, often expressed through thoughtful actions that benefit others without expecting anything in return.",
-                story: "Emma noticed an elderly neighbor struggling with grocery bags. Without hesitation, she offered help and carried them inside. This simple act brightened both their days and led to a meaningful friendship."
-            },
-            humility: {
-                description: "Humility is the quality of having a modest view of one's importance and maintaining an openness to learning from others, recognizing that everyone has something valuable to contribute.",
-                story: "As a senior developer, Alex was surprised when an intern suggested a better solution to a problem. Instead of dismissing it, he acknowledged the intern's insight and implemented the improvement, showing the team that good ideas can come from anyone."
-            },
-            integrity: {
-                description: "Integrity is the practice of being honest and showing consistent adherence to moral and ethical principles, even when it's challenging or no one is watching.",
-                story: "Lisa found an error in a report that had already been approved, which would make her team look better if left uncorrected. Despite the temptation to stay quiet, she brought it to attention and helped fix it, maintaining trust with stakeholders."
-            },
-            discipline: {
-                description: "Discipline is the ability to maintain consistent behavior aligned with one's goals and values, often requiring the willpower to choose long-term benefits over short-term pleasures.",
-                story: "Despite being tired after work, Marcus maintained his commitment to exercise by starting with just 10 minutes of activity each day. Over time, this small act of discipline grew into a sustainable healthy habit."
-            },
-            skepticism: {
-                description: "Skepticism is the practice of maintaining a questioning attitude and not accepting claims without sufficient evidence, while remaining open to changing one's mind when new evidence emerges.",
-                story: "When Rachel saw a compelling social media post about a health claim, she resisted the urge to share it immediately. Instead, she researched scientific sources and discovered it was misleading, preventing the spread of misinformation."
-            },
-            rationality: {
-                description: "Rationality is the practice of making decisions and forming beliefs based on logic, evidence, and careful reasoning, while being aware of and accounting for cognitive biases.",
-                story: "Before making a major career change, Tom listed out all the pros and cons, gathered data about industry trends, and consulted experts in the field. This rational approach helped him make a well-informed decision rather than acting on emotion alone."
-            }
-        };
-
-        let currentVirtue = '';
+        // Initialize empty objects to store data
+        let virtueData = {};
+        let virtues = [];
+        let virtueColors = {};
+        let virtuePractices = {};
+        let virtueStories = {};
+        let virtueDefinitions = {};
         let currentMode = 'practice';
+        let currentVirtue = null;
+        let currentPracticeIndex = 0;
+        let currentStoryIndex = 0;
+
+        // Function to load data from JSON file
+        async function loadVirtuesData() {
+            try {
+                const response = await fetch('virtues-data.json');
+                virtueData = await response.json();
+                
+                // Populate our variables from the JSON data
+                virtues = virtueData.virtues;
+                virtueColors = virtueData.virtueColors;
+                virtuePractices = virtueData.virtuePractices;
+                virtueStories = virtueData.virtueStories;
+                virtueDefinitions = virtueData.virtueDefinitions;
+
+                // Initialize the app after data is loaded
+                initializeApp();
+            } catch (error) {
+                console.error('Error loading virtues data:', error);
+            }
+        }
 
         function initializeApp() {
             const virtueGrid = document.getElementById('virtueGrid');
@@ -629,6 +200,10 @@
 
         function selectVirtue(virtue) {
             currentVirtue = virtue;
+            // Start with the first practice and story
+            currentPracticeIndex = 0;
+            currentStoryIndex = 0;
+            
             document.documentElement.style.setProperty('--primary-color', virtueColors[virtue]);
             const selectedVirtueElement = document.getElementById('selectedVirtue');
             selectedVirtueElement.textContent = virtue.charAt(0).toUpperCase() + virtue.slice(1);
@@ -638,26 +213,34 @@
 
         function showContent() {
             document.getElementById('virtueGrid').style.display = 'none';
-            document.getElementById('practiceContainer').style.display = currentMode === 'practice' ? 'block' : 'none';
-            document.getElementById('studyContainer').style.display = currentMode === 'study' ? 'block' : 'none';
+            const practiceContainer = document.getElementById('practiceContainer');
+            const studyContainer = document.getElementById('studyContainer');
+            
+            practiceContainer.style.display = currentMode === 'practice' ? 'block' : 'none';
+            studyContainer.style.display = currentMode === 'study' ? 'block' : 'none';
             
             if (currentMode === 'practice') {
-                showRandomPractice();
+                showPractice();
             } else {
                 showStudyContent();
             }
         }
 
-        function showRandomPractice() {
-            const practiceArray = practices[currentVirtue];
-            const randomIndex = Math.floor(Math.random() * practiceArray.length);
-            document.getElementById('practiceText').textContent = practiceArray[randomIndex];
+        function showPractice() {
+            const practiceArray = virtuePractices[currentVirtue];
+            document.getElementById('practiceText').textContent = practiceArray[currentPracticeIndex];
         }
 
-        function showStudyContent() {
-            const content = studyContent[currentVirtue];
-            document.getElementById('studyDescription').textContent = content.description;
-            document.getElementById('studyStory').textContent = content.story;
+        function nextPractice() {
+            const practiceArray = virtuePractices[currentVirtue];
+            currentPracticeIndex = (currentPracticeIndex + 1) % practiceArray.length;
+            showPractice();
+        }
+
+        function previousPractice() {
+            const practiceArray = virtuePractices[currentVirtue];
+            currentPracticeIndex = (currentPracticeIndex - 1 + practiceArray.length) % practiceArray.length;
+            showPractice();
         }
 
         function showVirtues() {
@@ -667,33 +250,48 @@
             document.getElementById('selectedVirtueContainer').style.display = 'none';
         }
 
-        function refreshPractice() {
-            showRandomPractice();
+        function showStudyContent() {
+            document.getElementById('studyDescription').textContent = virtueDefinitions[currentVirtue];
+            showStory();
         }
 
-        // Get the modal and close button
+        function showStory() {
+            const stories = virtueStories[currentVirtue];
+            document.getElementById('studyStory').textContent = stories[currentStoryIndex];
+        }
+
+        function nextStory() {
+            const stories = virtueStories[currentVirtue];
+            currentStoryIndex = (currentStoryIndex + 1) % stories.length;
+            showStory();
+        }
+
+        function previousStory() {
+            const stories = virtueStories[currentVirtue];
+            currentStoryIndex = (currentStoryIndex - 1 + stories.length) % stories.length;
+            showStory();
+        }
+
+        // Modal handling
         const modal = document.getElementById("infoModal");
         const closeButton = document.getElementsByClassName("close")[0];
 
-        // Open the modal when the info button is clicked
         document.getElementById("infoButton").onclick = function() {
             modal.style.display = "block";
         }
 
-        // Close the modal when the close button is clicked
         closeButton.onclick = function() {
             modal.style.display = "none";
         }
 
-        // Close the modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
 
-        // Initialize the app when the page loads
-        initializeApp();
+        // Load the data when the page loads
+        loadVirtuesData();
     </script>
 </body>
 </html>
