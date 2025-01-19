@@ -189,10 +189,20 @@
 
         function switchMode(mode) {
             currentMode = mode;
+            
+            // Reset all buttons to transparent and remove active class
             document.querySelectorAll('.mode-button').forEach(btn => {
                 btn.classList.remove('active');
+                btn.style.backgroundColor = 'transparent';
             });
+            
+            // Set the clicked button as active
             event.currentTarget.classList.add('active');
+            
+            // Set the active button's color based on whether a virtue is selected
+            const activeButton = document.querySelector('.mode-button.active');
+            activeButton.style.backgroundColor = currentVirtue ? 'var(--primary-color)' : '#383838';
+            
             if (currentVirtue) {
                 showContent();
             }
@@ -200,7 +210,6 @@
 
         function selectVirtue(virtue) {
             currentVirtue = virtue;
-            // Start with the first practice and story
             currentPracticeIndex = 0;
             currentStoryIndex = 0;
             
@@ -208,6 +217,11 @@
             const selectedVirtueElement = document.getElementById('selectedVirtue');
             selectedVirtueElement.textContent = virtue.charAt(0).toUpperCase() + virtue.slice(1);
             document.getElementById('selectedVirtueContainer').style.display = 'block';
+            
+            // Update active mode button and info button colors
+            document.querySelector('.mode-button.active').style.backgroundColor = 'var(--primary-color)';
+            document.getElementById('infoButton').style.backgroundColor = 'var(--primary-color)';
+            
             showContent();
         }
 
@@ -248,6 +262,10 @@
             document.getElementById('practiceContainer').style.display = 'none';
             document.getElementById('studyContainer').style.display = 'none';
             document.getElementById('selectedVirtueContainer').style.display = 'none';
+            
+            // Reset mode button and info button to default gray
+            document.querySelector('.mode-button.active').style.backgroundColor = '#383838';
+            document.getElementById('infoButton').style.backgroundColor = '#383838';
         }
 
         function showStudyContent() {
