@@ -1,27 +1,4 @@
-.nav-arrow {
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    background: var(--primary-color);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.nav-arrow:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.nav-arrow svg {
-    width: 24px;
-    height: 24px;
-}* {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -38,11 +15,13 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     max-width: 800px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: var(--dark-bg);
     color: var(--text-color);
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .header {
@@ -99,7 +78,7 @@ body {
 }
 
 .mode-button.active {
-    background-color: #383838; /* Default gray color */
+    background-color: #383838;
 }
 
 .mode-button svg {
@@ -184,11 +163,60 @@ body {
     animation: slideUp 0.3s ease-out;
 }
 
+.practice-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.section-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.3em;
+}
+
+.nav-arrows {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    background: var(--primary-color);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.nav-arrow:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.nav-arrow svg {
+    width: 16px;
+    height: 16px;
+}
+
 .practice-text, .study-text {
     font-size: 1.3em;
     line-height: 1.6;
     color: var(--text-color);
-    margin-bottom: 30px;
     padding: 20px;
     background-color: #383838;
     border-radius: 16px;
@@ -204,17 +232,9 @@ body {
     color: var(--primary-color);
 }
 
-.practice-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-}
-
-.practice-text {
+.story-text {
     flex: 1;
-    font-size: 1.3em;
+    font-size: 1em;
     line-height: 1.6;
     color: var(--text-color);
     padding: 20px;
@@ -230,7 +250,7 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: #383838; /* Default gray color */
+    background-color: #383838;
     color: white;
     display: flex;
     align-items: center;
@@ -308,25 +328,95 @@ body {
 
 @media (max-width: 600px) {
     body {
-        padding: 15px;
+        padding: 12px;
+        max-width: 100%;
     }
     
     .app-title {
-        font-size: 2em;
+        font-size: 1.8em;
+    }
+
+    .content-container {
+        padding: 15px;
+    }
+
+    .mode-selector {
+        margin-bottom: 20px;
+        padding: 6px;
+    }
+
+    .mode-button {
+        padding: 12px;
+        font-size: 1em;
+    }
+
+    .selected-virtue {
+        font-size: 1.4em;
+        padding: 15px;
     }
 
     .virtue-grid {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 12px;
+        padding: 5px;
     }
 
-    .button-container {
-        flex-direction: column;
+    .virtue-button {
+        padding: 20px 15px;
+        font-size: 1.1em;
     }
 
-    .back-button, 
-    .refresh-button {
-        width: 100%;
-        justify-content: center;
+    .practice-text, .study-text {
+        font-size: 1.1em;
+        padding: 15px;
+        line-height: 1.4;
+    }
+
+    .story-text {
+        font-size: 1em;
+        padding: 15px;
+        line-height: 1.4;
+    }
+
+    .study-section h3 {
+        font-size: 1.2em;
+        margin-bottom: 8px;
+    }
+
+    .section-header {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .section-header h3 {
+        font-size: 1.2em;
+    }
+
+    .nav-arrows {
+        gap: 6px;
+    }
+
+    .nav-arrow {
+        width: 24px;
+        height: 24px;
+    }
+
+    .nav-arrow svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 10% auto;
+        padding: 15px;
+    }
+
+    .info-button {
+        top: 15px;
+        right: 15px;
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
     }
 }
