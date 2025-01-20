@@ -95,17 +95,22 @@
 
     <div class="content-container" id="practiceContainer">
         <div class="practice-container">
-            <button class="nav-arrow left" onclick="previousPractice()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 18l-6-6 6-6"/>
-                </svg>
-            </button>
+            <div class="section-header">
+                <h3>Practice</h3>
+                <div class="nav-arrows">
+                    <button class="nav-arrow left" onclick="previousPractice()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <button class="nav-arrow right" onclick="nextPractice()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
             <div class="practice-text" id="practiceText"></div>
-            <button class="nav-arrow right" onclick="nextPractice()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 18l6-6-6-6"/>
-                </svg>
-            </button>
         </div>
     </div>
 
@@ -116,20 +121,22 @@
                 <div id="studyDefinition"></div>
             </div>
             <div class="study-section">
-                <h3>Example Story</h3>
-                <div class="practice-container">
-                    <button class="nav-arrow left" onclick="previousStory()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 18l-6-6 6-6"/>
-                        </svg>
-                    </button>
-                    <div class="story-text" id="studyStory"></div>
-                    <button class="nav-arrow right" onclick="nextStory()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </button>
+                <div class="section-header">
+                    <h3>Example Story</h3>
+                    <div class="nav-arrows">
+                        <button class="nav-arrow left" onclick="previousStory()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                        </button>
+                        <button class="nav-arrow right" onclick="nextStory()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+                <div class="story-text" id="studyStory"></div>
             </div>
         </div>
     </div>
