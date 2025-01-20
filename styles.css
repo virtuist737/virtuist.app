@@ -173,7 +173,7 @@ body {
 .section-header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     margin-bottom: 12px;
 }
 
@@ -185,32 +185,31 @@ body {
 
 .nav-arrows {
     display: flex;
-    gap: 8px;
+    gap: 4px;
     align-items: center;
 }
 
 .nav-arrow {
-    width: 28px;
-    height: 28px;
-    border-radius: 14px;
-    background: var(--primary-color);
+    width: 32px;
+    height: 32px;
     border: none;
+    background: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    transition: all 0.3s ease;
+    padding: 0;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
 }
 
 .nav-arrow:hover {
-    transform: scale(1.1);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transform: scale(1.15);
 }
 
 .nav-arrow svg {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
 }
 
 .practice-text, .study-text {
@@ -384,7 +383,7 @@ body {
     }
 
     .section-header {
-        gap: 8px;
+        gap: 6px;
         margin-bottom: 10px;
     }
 
@@ -393,17 +392,17 @@ body {
     }
 
     .nav-arrows {
-        gap: 6px;
+        gap: 2px;
     }
 
     .nav-arrow {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
     }
 
     .nav-arrow svg {
-        width: 14px;
-        height: 14px;
+        width: 20px;
+        height: 20px;
     }
 
     .modal-content {
