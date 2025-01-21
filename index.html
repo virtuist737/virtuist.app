@@ -137,12 +137,12 @@
         <div class="section">
             <div class="section-header">
                 <div class="nav-arrows">
-                    <button class="nav-arrow" onclick="previousPractice()">
+                    <button class="nav-arrow" onclick="previousStory()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="15 18 9 12 15 6"/>
                         </svg>
                     </button>
-                    <button class="nav-arrow" onclick="nextPractice()">
+                    <button class="nav-arrow" onclick="nextStory()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"/>
                         </svg>
@@ -150,7 +150,7 @@
                 </div>
                 <h3>Example Story</h3>
             </div>
-            <div class="section-content story-content" id="studyStory"></div>
+            <div class="section-content" id="studyStory"></div>
         </div>
     </div>
 
@@ -282,6 +282,10 @@
         function showStudyContent() {
             document.getElementById('studyDefinition').textContent = virtueDefinitions[currentVirtue];
             showStory();
+            
+            // Update navigation arrow event listeners
+            document.querySelector('#studyContainer .nav-arrow:first-child').onclick = previousStory;
+            document.querySelector('#studyContainer .nav-arrow:last-child').onclick = nextStory;
         }
 
         function showStory() {

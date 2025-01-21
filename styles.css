@@ -204,10 +204,6 @@ body {
     box-shadow: inset var(--shadow-sm);
 }
 
-.story-content {
-    font-size: 1em;
-}
-
 /* Navigation Arrows */
 .nav-arrows {
     position: absolute;
@@ -301,6 +297,10 @@ body {
     opacity: 0.8;
 }
 
+.modal-content ol {
+    padding-left: 20px;
+    }
+
 .close {
     color: #aaa;
     float: right;
@@ -371,10 +371,6 @@ stripe-buy-button {
         font-size: 1.1em;
         padding: 15px;
         line-height: 1.4;
-    }
-
-    .story-content {
-        font-size: 1em;
     }
 
     /* Components */
