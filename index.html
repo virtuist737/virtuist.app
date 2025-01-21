@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#009BFF">
+    <meta name="description" content="Practice and study virtues to bring more peace and joy to your life">
     <title>Virtuist</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -30,7 +32,7 @@
         <button id="infoButton" class="info-button">i</button>
     </div>
 
-    <div class="mode-selector">
+    <div class="mode-selector" style="display: none;">
         <button class="mode-button active" onclick="switchMode('practice')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/>
@@ -62,22 +64,24 @@
     <div id="infoModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
+            <p>Created by <a href="https://tannerbraden.com">Tanner Braden</a></p>
+        </br>
             <h2>About Virtuist</h2>
         </br>
             <h3>What are virtues?</h3>
         </br>
             <p>Virtues are universal behavioral instruments that elicit lasting peace and joy.</p>
-            <p>Just as musical instruments---like the piano---can elicit emotional experiences, virtues---like empathy---are behavioral instruments that when wielded skillfully can elicit lasting emotional experiences of peace and/or joy in oneself and others.</p>
+            <p>Just as musical instruments---like the piano---can elicit emotional experiences, virtues---like gratitude or empathy---are behavioral instruments that when wielded skillfully can elicit lasting emotional experiences of peace and/or joy in oneself and others.</p>
         </br>
             <h3>Why does this app exist?</h3>
         </br>
-            <p>I'm building Virtuist in hopes that it will enable and inspire more people to practice virtues, thereby reducing suffering and increasing peace and joy.</p>
-            <p>I have observed that while both religious and secular organizations succeed at helping people practice some primary virtues, they fail with other primary virtues. Most of them tend to drive division and hatred.</p>
+            <p>I'm building Virtuist in hopes that it will enable and inspire more individuals and families to practice virtues, thereby reducing suffering and increasing peace and joy.</p>
+            <p>I have observed that while both religious and secular organizations succeed at helping people practice some virtues, they fail to help with other virtues.</p>
             <p>This app is my attempt to pave a better path that we can all walk together, helping each other practice virtues that will bring us all greater peace and joy.</p>
         </br>
             <h3>What are the plans for this app?</h3>
         </br>
-            <p>My vision is to build an app like Duolingo, but instead of helping people study and practice languages it will help people study and practice virtues.</p>
+            <p>My vision is to build an app similar to Duolingo, but instead of helping people study and practice their choice of foreign languages it will help them study and practice virtues.</p>
             <p>I plan to first focus on the app itself, building it into a gamified experience with a robust library of resources.</p>
             <p>Then I plan to try to enable Virtuists to connect with each other and build local communities on a common foundation of virtues.</p>
         </br>
@@ -85,59 +89,68 @@
         </br>
             <ol>
                 <li>Share Virtuist with your family and friends, inviting them to practice and study virtues with you.</li>
-                <li>Email me at [coming soon] to share your ideas for app features, practice exercises and virtue stories.</li>
-                <li>Donate at [coming soon] so I can invest more time and money into building Virtuist.</li>
+                <li>Email me at hello@virtuist.app to share your ideas for app features, practice exercises and example stories.</li>
+                <li>Donate below so I can invest more time and money into building Virtuist. Every dollar helps and is greatly appreciated.</li>
             </ol>
         </br>
             <p>Thank you!</p>
+            <div class="donation-container">
+                <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+                <stripe-buy-button
+                    buy-button-id="buy_btn_1QjWZdRw86YJu12Yh43fRmbu"
+                    publishable-key="pk_live_51QjWB9Rw86YJu12YJnjfIDDhEkzmg8FCwnq0MI6kbC5fEviXQOVQlvGkgnqvpRV7mbhe8AzBwiFrAJdD2zVlKX4c002xSS1Wu8"
+                >
+                </stripe-buy-button>
+            </div>
         </div>
     </div>
 
     <div class="content-container" id="practiceContainer">
-        <div class="practice-container">
+        <div class="section">
             <div class="section-header">
-                <h3>Practice</h3>
                 <div class="nav-arrows">
-                    <button class="nav-arrow left" onclick="previousPractice()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <button class="nav-arrow" onclick="previousPractice()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="15 18 9 12 15 6"/>
                         </svg>
                     </button>
-                    <button class="nav-arrow right" onclick="nextPractice()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <button class="nav-arrow" onclick="nextPractice()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"/>
                         </svg>
                     </button>
                 </div>
+                <h3>Exercise</h3>
             </div>
-            <div class="practice-text" id="practiceText"></div>
+            <div class="section-content" id="practiceText"></div>
         </div>
     </div>
 
     <div class="content-container" id="studyContainer">
-        <div class="study-text">
-            <div class="study-section">
+        <div class="section">
+            <div class="section-header">
                 <h3>Definition</h3>
-                <div id="studyDefinition"></div>
             </div>
-            <div class="study-section">
-                <div class="section-header">
-                    <h3>Example Story</h3>
-                    <div class="nav-arrows">
-                        <button class="nav-arrow left" onclick="previousStory()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="15 18 9 12 15 6"/>
-                            </svg>
-                        </button>
-                        <button class="nav-arrow right" onclick="nextStory()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 18 15 12 9 6"/>
-                            </svg>
-                        </button>
-                    </div>
+            <div class="section-content" id="studyDefinition"></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" onclick="previousPractice()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                    </button>
+                    <button class="nav-arrow" onclick="nextPractice()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
                 </div>
-                <div class="story-text" id="studyStory"></div>
+                <h3>Example Story</h3>
             </div>
+            <div class="section-content story-content" id="studyStory"></div>
         </div>
     </div>
 
@@ -216,6 +229,7 @@
             const selectedVirtueElement = document.getElementById('selectedVirtue');
             selectedVirtueElement.textContent = virtue.charAt(0).toUpperCase() + virtue.slice(1);
             document.getElementById('selectedVirtueContainer').style.display = 'block';
+            document.querySelector('.mode-selector').style.display = 'flex';
             
             // Update active mode button and info button colors
             document.querySelector('.mode-button.active').style.backgroundColor = 'var(--primary-color)';
@@ -261,9 +275,7 @@
             document.getElementById('practiceContainer').style.display = 'none';
             document.getElementById('studyContainer').style.display = 'none';
             document.getElementById('selectedVirtueContainer').style.display = 'none';
-            
-            // Reset mode button and info button to default gray
-            document.querySelector('.mode-button.active').style.backgroundColor = '#383838';
+            document.querySelector('.mode-selector').style.display = 'none';
             document.getElementById('infoButton').style.backgroundColor = '#383838';
         }
 
@@ -309,6 +321,19 @@
 
         // Load the data when the page loads
         loadVirtuesData();
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
