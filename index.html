@@ -16,6 +16,7 @@
     <link rel="icon" href="assets/favicon.ico">
     <link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
     <link rel="manifest" href="manifest.json">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
     
 </head>
 <body>
@@ -69,25 +70,30 @@
     <div id="infoModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Created by <a href="https://tannerbraden.com">Tanner Braden</a></p>
+            <p>Created by <a href="https://tannerbraden.com">Tanner Braden</a></p> with the help of <a href="https://claude.ai">Claude</a>
         </br>
             <h2>About Virtuist</h2>
         </br>
             <h3>What are virtues?</h3>
         </br>
             <p>Virtues are universal behavioral instruments that elicit lasting peace and joy.</p>
+        </br>
             <p>Just as musical instruments---like the piano---can elicit emotional experiences, virtues---like gratitude or empathy---are behavioral instruments that when wielded skillfully can elicit lasting emotional experiences of peace and/or joy in oneself and others.</p>
         </br>
             <h3>Why does this app exist?</h3>
         </br>
             <p>I'm building Virtuist in hopes that it will enable and inspire more individuals and families to practice virtues, thereby reducing suffering and increasing peace and joy.</p>
+        </br>
             <p>I have observed that while both religious and secular organizations succeed at helping people practice some virtues, they fail to help with other virtues.</p>
+        </br>
             <p>This app is my attempt to pave a better path that we can all walk together, helping each other practice virtues that will bring us all greater peace and joy.</p>
         </br>
             <h3>What are the plans for this app?</h3>
         </br>
             <p>My vision is to build an app similar to Duolingo, but instead of helping people study and practice their choice of foreign languages it will help them study and practice virtues.</p>
+        </br>
             <p>I plan to first focus on the app itself, building it into a gamified experience with a robust library of resources.</p>
+        </br>
             <p>Then I plan to try to enable Virtuists to connect with each other and build local communities on a common foundation of virtues.</p>
         </br>
             <h3>How can you help?</h3>
@@ -160,8 +166,8 @@
     </div>
 
     <script>
-        // Initialize empty objects to store data
-        let virtueData = {};
+        // Initialize variables
+        let db;
         let virtues = [];
         let virtueColors = {};
         let virtuePractices = {};
@@ -172,23 +178,76 @@
         let currentPracticeIndex = 0;
         let currentStoryIndex = 0;
 
-        // Function to load data from JSON file
+        // Initialize database and load data
+        async function initDB() {
+            try {
+                const sqlPromise = initSqlJs({
+                    locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+                });
+                const dataPromise = fetch('virtuist.db').then(res => res.arrayBuffer());
+                const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
+                return new SQL.Database(new Uint8Array(buf));
+            } catch (error) {
+                console.error('Error initializing database:', error);
+                throw error;
+            }
+        }
+
         async function loadVirtuesData() {
             try {
-                const response = await fetch('virtues-data.json');
-                virtueData = await response.json();
+                db = await initDB();
                 
-                // Populate our variables from the JSON data
-                virtues = virtueData.virtues;
-                virtueColors = virtueData.virtueColors;
-                virtuePractices = virtueData.virtuePractices;
-                virtueStories = virtueData.virtueStories;
-                virtueDefinitions = virtueData.virtueDefinitions;
+                // Load virtues and their properties
+                const virtuesResult = db.exec(`
+                    SELECT name, color, definition 
+                    FROM virtues 
+                    ORDER BY name
+                `);
+                
+                if (virtuesResult[0] && virtuesResult[0].values) {
+                    virtues = virtuesResult[0].values.map(row => row[0]);
+                    virtueColors = Object.fromEntries(
+                        virtuesResult[0].values.map(row => [row[0], row[1]])
+                    );
+                    virtueDefinitions = Object.fromEntries(
+                        virtuesResult[0].values.map(row => [row[0], row[2]])
+                    );
+                }
 
-                // Initialize the app after data is loaded
+                // Initialize the app
                 initializeApp();
             } catch (error) {
                 console.error('Error loading virtues data:', error);
+            }
+        }
+
+        async function loadStoriesForVirtue(virtue) {
+            try {
+                const result = db.exec(`
+                    SELECT content 
+                    FROM stories 
+                    WHERE virtue_id = (SELECT id FROM virtues WHERE name = '${virtue}')
+                    ORDER BY id
+                `);
+                return result[0]?.values.map(row => row[0]) || [];
+            } catch (error) {
+                console.error('Error loading stories:', error);
+                return [];
+            }
+        }
+
+        async function loadPracticesForVirtue(virtue) {
+            try {
+                const result = db.exec(`
+                    SELECT content 
+                    FROM practices 
+                    WHERE virtue_id = (SELECT id FROM virtues WHERE name = '${virtue}')
+                    ORDER BY id
+                `);
+                return result[0]?.values.map(row => row[0]) || [];
+            } catch (error) {
+                console.error('Error loading practices:', error);
+                return [];
             }
         }
 
@@ -204,31 +263,14 @@
             });
         }
 
-        function switchMode(mode) {
-            currentMode = mode;
-            
-            // Reset all buttons to transparent and remove active class
-            document.querySelectorAll('.mode-button').forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.backgroundColor = 'transparent';
-            });
-            
-            // Set the clicked button as active
-            event.currentTarget.classList.add('active');
-            
-            // Set the active button's color based on whether a virtue is selected
-            const activeButton = document.querySelector('.mode-button.active');
-            activeButton.style.backgroundColor = currentVirtue ? 'var(--primary-color)' : '#383838';
-            
-            if (currentVirtue) {
-                showContent();
-            }
-        }
-
-        function selectVirtue(virtue) {
+        async function selectVirtue(virtue) {
             currentVirtue = virtue;
             currentPracticeIndex = 0;
             currentStoryIndex = 0;
+            
+            // Load stories and practices for this virtue
+            virtueStories[virtue] = await loadStoriesForVirtue(virtue);
+            virtuePractices[virtue] = await loadPracticesForVirtue(virtue);
             
             document.documentElement.style.setProperty('--primary-color', virtueColors[virtue]);
             const selectedVirtueElement = document.getElementById('selectedVirtue');
@@ -241,6 +283,24 @@
             document.getElementById('infoButton').style.backgroundColor = 'var(--primary-color)';
             
             showContent();
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            document.querySelectorAll('.mode-button').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.backgroundColor = 'transparent';
+            });
+            
+            event.currentTarget.classList.add('active');
+            
+            const activeButton = document.querySelector('.mode-button.active');
+            activeButton.style.backgroundColor = currentVirtue ? 'var(--primary-color)' : '#383838';
+            
+            if (currentVirtue) {
+                showContent();
+            }
         }
 
         function showContent() {
@@ -287,10 +347,6 @@
         function showStudyContent() {
             document.getElementById('studyDefinition').textContent = virtueDefinitions[currentVirtue];
             showStory();
-            
-            // Update navigation arrow event listeners
-            document.querySelector('#studyContainer .nav-arrow:first-child').onclick = previousStory;
-            document.querySelector('#studyContainer .nav-arrow:last-child').onclick = nextStory;
         }
 
         function showStory() {
@@ -328,7 +384,7 @@
             }
         }
 
-        // Load the data when the page loads
+        // Load data when page loads
         loadVirtuesData();
     </script>
     <script>
