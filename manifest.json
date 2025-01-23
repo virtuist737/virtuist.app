@@ -9,16 +9,16 @@
     "orientation": "portrait-primary",
     "icons": [
         {
-        "src": "assets/ios-dark.png",
-        "sizes": "1024x1024",
+        "src": "assets/icon-dark-512x512.png",
+        "sizes": "512x512",
         "type": "image/png",
         "purpose": "maskable"
         },
         {
-        "src": "assets/ios-light.png",
-        "sizes": "1024x1024",
+        "src": "assets/icon-light-512x512.png",
+        "sizes": "512x512",
         "type": "image/png",
-        "purpose": "maskable any"
+        "purpose": "maskable"
         }
     ]
 }
