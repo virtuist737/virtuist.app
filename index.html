@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#009BFF">
     <meta name="description" content="Practice and study virtues to bring more peace and joy to your life">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Virtuist">
     <title>Virtuist</title>
     <link rel="stylesheet" href="styles.css">
@@ -14,7 +14,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="icon" href="assets/favicon.ico">
-    <link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
     <link rel="manifest" href="manifest.json">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
     
@@ -22,17 +21,7 @@
 <body>
     <div class="header">
         <div class="logo-container" style="cursor: pointer;" onclick="showVirtues()">
-            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="50pt" height="50pt" viewBox="0 0 243.000000 252.000000" preserveAspectRatio="xMidYMid meet">
-                <g transform="translate(0.000000,252.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
-                    <path d="M450 2165 c-81 -37 -141 -139 -124 -212 3 -15 103 -320 220 -678 145
-                        -439 224 -665 245 -696 107 -168 318 -240 515 -177 68 21 68 21 36 29 -40 8
-                        -87 50 -112 99 -9 19 -126 364 -260 765 -134 402 -253 751 -267 777 -32 65
-                        -87 101 -161 105 -37 2 -70 -2 -92 -12z"/>
-                    <path d="M1715 2163 c-43 -23 -74 -53 -95 -93 -10 -19 -111 -320 -226 -668
-                        l-208 -632 28 -88 c55 -168 88 -212 160 -212 68 0 116 20 143 61 14 21 123
-                        336 250 721 251 760 249 750 197 835 -51 83 -169 119 -249 76z"/>
-                </g>
-            </svg>
+            <img src="assets/android-chrome-192x192.png" width="50" height="50" alt="Virtuist logo">
             <h1 class="app-title">Virtuist</h1>
         </div>
         <button id="infoButton" class="info-button">i</button>
@@ -201,7 +190,7 @@
                 const virtuesResult = db.exec(`
                     SELECT name, color, definition 
                     FROM virtues 
-                    ORDER BY name
+                    ORDER BY id
                 `);
                 
                 if (virtuesResult[0] && virtuesResult[0].values) {
