@@ -567,31 +567,6 @@ stripe-buy-button {
     animation: slideOutRight 0.3s ease-out;
 }
 
-/* Footer */
-.footer {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.1em;
-    font-weight: 400;
-    line-height: 1.6;
-    color: var(--text-color);
-    z-index: 100;
-}
-
-.footer a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    transition: opacity 0.3s ease;
-}
-
-.footer a:hover {
-    opacity: 0.8;
-}
-
 /* Media Queries */
 @media (max-width: 600px) {
     /* Layout */
@@ -693,12 +668,6 @@ stripe-buy-button {
         width: 28px;
         height: 28px;
         font-size: 16px;
-    }
-
-    .footer {
-        bottom: 10px;
-        right: 10px;
-        font-size: 0.8em;
     }
 
     /* Animation adjustments for mobile */
