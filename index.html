@@ -16,7 +16,6 @@
     <link rel="icon" href="assets/favicon.ico">
     <link rel="manifest" href="manifest.json">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
-    
 </head>
 <body>
     <div class="header">
@@ -60,39 +59,39 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>Created by <a href="https://tannerbraden.com">Tanner Braden</a> with the help of <a href="https://claude.ai">Claude</a></p>
-        </br>
+            </br>
             <h2>About Virtuist</h2>
-        </br>
+            </br>
             <h3>What are virtues?</h3>
-        </br>
+            </br>
             <p>Virtues are universal behavioral instruments that elicit lasting peace and joy.</p>
-        </br>
+            </br>
             <p>Just as musical instruments---like the piano---can elicit emotional experiences, virtues---like gratitude or empathy---are behavioral instruments that when wielded skillfully can elicit lasting emotional experiences of peace and/or joy in oneself and others.</p>
-        </br>
+            </br>
             <h3>Why does this app exist?</h3>
-        </br>
+            </br>
             <p>I'm building Virtuist in hopes that it will enable and inspire more individuals and families to practice virtues, thereby reducing suffering and increasing peace and joy.</p>
-        </br>
+            </br>
             <p>I have observed that while both religious and secular organizations succeed at helping people practice some virtues, they fail to help with other virtues.</p>
-        </br>
+            </br>
             <p>This app is my attempt to pave a better path that we can all walk together, helping each other practice virtues that will bring us all greater peace and joy.</p>
-        </br>
+            </br>
             <h3>What are the plans for this app?</h3>
-        </br>
+            </br>
             <p>My vision is to build an app similar to Duolingo, but instead of helping people study and practice their choice of foreign languages it will help them study and practice virtues.</p>
-        </br>
+            </br>
             <p>I plan to first focus on the app itself, building it into a gamified experience with a robust library of resources.</p>
-        </br>
+            </br>
             <p>Then I plan to try to enable Virtuists to connect with each other and build local communities on a common foundation of virtues.</p>
-        </br>
+            </br>
             <h3>How can you help?</h3>
-        </br>
+            </br>
             <ol>
                 <li>Share Virtuist with your family and friends, inviting them to practice and study virtues with you.</li>
                 <li>Email me at hello@virtuist.app to share your ideas for app features, practice exercises and example stories.</li>
                 <li>Donate below so I can invest more time and money into building Virtuist. Every dollar helps and is greatly appreciated.</li>
             </ol>
-        </br>
+            </br>
             <p>Thank you!</p>
             <div class="donation-container">
                 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
@@ -240,14 +239,34 @@
             }
         }
 
+        // Animation helper function
+        function animateContentTransition(element, direction, isNext) {
+            const currentContent = element.innerHTML;
+            const outClass = isNext ? 'next-out' : 'prev-out';
+            const inClass = isNext ? 'next-in' : 'prev-in';
+            
+            element.classList.add(outClass);
+            
+            setTimeout(() => {
+                element.classList.remove(outClass);
+                element.innerHTML = direction;
+                element.classList.add(inClass);
+                
+                setTimeout(() => {
+                    element.classList.remove(inClass);
+                }, 300);
+            }, 300);
+        }
+
         function initializeApp() {
             const virtueGrid = document.getElementById('virtueGrid');
-            virtues.forEach(virtue => {
+            virtues.forEach((virtue, index) => {
                 const button = document.createElement('button');
                 button.className = 'virtue-button';
                 button.style.backgroundColor = virtueColors[virtue];
                 button.onclick = () => selectVirtue(virtue);
                 button.textContent = virtue.charAt(0).toUpperCase() + virtue.slice(1);
+                button.style.animationDelay = `${index * 0.1}s`;
                 virtueGrid.appendChild(button);
             });
         }
@@ -257,38 +276,74 @@
             currentPracticeIndex = 0;
             currentStoryIndex = 0;
             
-            // Load stories and practices for this virtue
-            virtueStories[virtue] = await loadStoriesForVirtue(virtue);
-            virtuePractices[virtue] = await loadPracticesForVirtue(virtue);
+            // Animate the grid away
+            const virtueGrid = document.getElementById('virtueGrid');
+            virtueGrid.classList.add('animate-out');
             
-            document.documentElement.style.setProperty('--primary-color', virtueColors[virtue]);
-            const selectedVirtueElement = document.getElementById('selectedVirtue');
-            selectedVirtueElement.textContent = virtue.charAt(0).toUpperCase() + virtue.slice(1);
-            document.getElementById('selectedVirtueContainer').style.display = 'block';
-            document.querySelector('.mode-selector').style.display = 'flex';
-            
-            // Update active mode button and info button colors
-            document.querySelector('.mode-button.active').style.backgroundColor = 'var(--primary-color)';
-            document.getElementById('infoButton').style.backgroundColor = 'var(--primary-color)';
-            
-            showContent();
+            setTimeout(async () => {
+                // Load data
+                virtueStories[virtue] = await loadStoriesForVirtue(virtue);
+                virtuePractices[virtue] = await loadPracticesForVirtue(virtue);
+                
+                // Update styles and show new content
+                document.documentElement.style.setProperty('--primary-color', virtueColors[virtue]);
+                
+                const selectedVirtueElement = document.getElementById('selectedVirtue');
+                selectedVirtueElement.textContent = virtue.charAt(0).toUpperCase() + virtue.slice(1);
+                
+                // Show containers with animations
+                document.getElementById('selectedVirtueContainer').style.display = 'block';
+                document.querySelector('.mode-selector').style.display = 'flex';
+                
+                // Update colors
+                document.querySelector('.mode-button.active').style.backgroundColor = 'var(--primary-color)';
+                document.getElementById('infoButton').style.backgroundColor = 'var(--primary-color)';
+                
+                virtueGrid.style.display = 'none';
+                virtueGrid.classList.remove('animate-out');
+                
+                showContent();
+            }, 300);
         }
 
         function switchMode(mode) {
             currentMode = mode;
             
-            document.querySelectorAll('.mode-button').forEach(btn => {
+            const buttons = document.querySelectorAll('.mode-button');
+            buttons.forEach(btn => {
                 btn.classList.remove('active');
                 btn.style.backgroundColor = 'transparent';
             });
             
-            event.currentTarget.classList.add('active');
-            
-            const activeButton = document.querySelector('.mode-button.active');
-            activeButton.style.backgroundColor = currentVirtue ? 'var(--primary-color)' : '#383838';
+            const activeButton = event.currentTarget;
+            activeButton.classList.add('active');
             
             if (currentVirtue) {
+                activeButton.style.backgroundColor = 'var(--primary-color)';
+                
+                const practiceContainer = document.getElementById('practiceContainer');
+                const studyContainer = document.getElementById('studyContainer');
+                
+                // Disable animations temporarily
+                practiceContainer.style.transition = 'none';
+                studyContainer.style.transition = 'none';
+                
+                if (mode === 'practice') {
+                    studyContainer.style.display = 'none';
+                    practiceContainer.style.display = 'block';
+                } else {
+                    practiceContainer.style.display = 'none';
+                    studyContainer.style.display = 'block';
+                }
+                
+                // Call showContent() to update the content based on the current mode
                 showContent();
+                
+                // Re-enable animations after a short delay
+                setTimeout(() => {
+                    practiceContainer.style.transition = '';
+                    studyContainer.style.transition = '';
+                }, 50);
             }
         }
 
@@ -314,22 +369,72 @@
 
         function nextPractice() {
             const practiceArray = virtuePractices[currentVirtue];
-            currentPracticeIndex = (currentPracticeIndex + 1) % practiceArray.length;
-            showPractice();
+            const practiceText = document.getElementById('practiceText');
+            const nextIndex = (currentPracticeIndex + 1) % practiceArray.length;
+            const nextContent = practiceArray[nextIndex];
+            
+            animateContentTransition(practiceText, nextContent, true);
+            currentPracticeIndex = nextIndex;
         }
 
         function previousPractice() {
             const practiceArray = virtuePractices[currentVirtue];
-            currentPracticeIndex = (currentPracticeIndex - 1 + practiceArray.length) % practiceArray.length;
-            showPractice();
+            const practiceText = document.getElementById('practiceText');
+            const prevIndex = (currentPracticeIndex - 1 + practiceArray.length) % practiceArray.length;
+            const prevContent = practiceArray[prevIndex];
+            
+            animateContentTransition(practiceText, prevContent, false);
+            currentPracticeIndex = prevIndex;
         }
 
         function showVirtues() {
-            document.getElementById('virtueGrid').style.display = 'grid';
-            document.getElementById('practiceContainer').style.display = 'none';
-            document.getElementById('studyContainer').style.display = 'none';
-            document.getElementById('selectedVirtueContainer').style.display = 'none';
-            document.querySelector('.mode-selector').style.display = 'none';
+            const virtueGrid = document.getElementById('virtueGrid');
+            const practiceContainer = document.getElementById('practiceContainer');
+            const studyContainer = document.getElementById('studyContainer');
+            const selectedVirtueContainer = document.getElementById('selectedVirtueContainer');
+            const modeSelector = document.querySelector('.mode-selector');
+            
+            // Clear the grid first
+            virtueGrid.innerHTML = '';
+            
+            // Reinitialize the virtue grid with buttons
+            virtues.forEach((virtue, index) => {
+                const button = document.createElement('button');
+                button.className = 'virtue-button';
+                button.style.backgroundColor = virtueColors[virtue];
+                button.onclick = () => selectVirtue(virtue);
+                button.textContent = virtue.charAt(0).toUpperCase() + virtue.slice(1);
+                button.style.animationDelay = `${index * 0.1}s`;
+                virtueGrid.appendChild(button);
+            });
+            
+            // Animate current content out
+            if (practiceContainer.style.display === 'block') {
+                practiceContainer.classList.add('animate-out');
+            }
+            if (studyContainer.style.display === 'block') {
+                studyContainer.classList.add('animate-out');
+            }
+            
+            setTimeout(() => {
+                // Hide all containers
+                practiceContainer.style.display = 'none';
+                studyContainer.style.display = 'none';
+                selectedVirtueContainer.style.display = 'none';
+                modeSelector.style.display = 'none';
+                practiceContainer.classList.remove('animate-out');
+                studyContainer.classList.remove('animate-out');
+                
+                // Show and animate in the virtue grid
+                virtueGrid.style.display = 'grid';
+                virtueGrid.classList.add('animate-in');
+                
+                setTimeout(() => {
+                    virtueGrid.classList.remove('animate-in');
+                }, 300);
+            }, 300);
+            
+            // Reset the info button color
             document.getElementById('infoButton').style.backgroundColor = '#383838';
         }
 
@@ -345,14 +450,22 @@
 
         function nextStory() {
             const stories = virtueStories[currentVirtue];
-            currentStoryIndex = (currentStoryIndex + 1) % stories.length;
-            showStory();
+            const storyText = document.getElementById('studyStory');
+            const nextIndex = (currentStoryIndex + 1) % stories.length;
+            const nextContent = stories[nextIndex];
+            
+            animateContentTransition(storyText, nextContent, true);
+            currentStoryIndex = nextIndex;
         }
 
         function previousStory() {
             const stories = virtueStories[currentVirtue];
-            currentStoryIndex = (currentStoryIndex - 1 + stories.length) % stories.length;
-            showStory();
+            const storyText = document.getElementById('studyStory');
+            const prevIndex = (currentStoryIndex - 1 + stories.length) % stories.length;
+            const prevContent = stories[prevIndex];
+            
+            animateContentTransition(storyText, prevContent, false);
+            currentStoryIndex = prevIndex;
         }
 
         // Modal handling
